@@ -30,5 +30,8 @@ function create(req, res) {
 }
 
 function index(req, res) {
-
+  Flight.find({}, function(err, flights) {
+    if (err) return res.redirect('/');
+    res.render('flights/index', {flights});
+  });
 }
