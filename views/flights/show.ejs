@@ -1,0 +1,59 @@
+<%- include('../partials/header') %>
+
+<section id="show-page">
+  <div>Airline: </div>
+  <div><%= flight.airline %></div>
+  <div>Airport: </div>
+  <div><%= flight.airport %></div>
+  <div>Flight No: </div>
+  <div><%= flight.flightNo %></div>
+  <div>Departure: </div>
+  <div><%= flight.departs %></div>
+</section>
+
+<br><br>
+<h2>Destinations</h2>
+
+<% if (flight.destinations.length) { %>
+<table>
+  <thead>
+    <tr>
+      <th>Airport</th>
+      <th>Arrival</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% flight.destinations.forEach(function(d) { %>
+    <tr>
+      <td><%= d.airport %></td>
+      <td><%= d.arrival.toLocaleString() %></td>
+    </tr>
+    <% }); %>
+  </tbody>
+</table>
+<% } else { %>
+<h5>Non-stop flight</h5>
+<% } %>
+
+<form id="add-flight-form" method="POST" action="/flights/<%= flight._id %>/destinations">
+  <label>Airport:</label>
+  <select name="airport">
+    <option value="DFW">DFW</option>
+    <option value="SAN">SAN</option>
+    <option value="ORD">ORD</option>
+    <option value="DEN">DEN</option>
+    <option value="LAX">LAX</option>
+    <option value="ATL" selected>ATL</option>
+    <option value="JFK">JFK</option>
+    <option value="MIA">MIA</option>
+    <option value="PHX">PHX</option>
+    <option value="LAS">LAS</option>
+  </select>
+  <label>Arrival:</label>
+  <input type="datetime-local" name="arrival" value="<%= arrTime %>">
+
+  <input type="submit" value="Add Flight">
+</form>
+
+
+<%- include('../partials/footer') %>

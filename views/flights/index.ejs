@@ -1,13 +1,11 @@
 <%- include('../partials/header') %>
-
-<h2>All Flights</h2>
-<table>
+<table id="list">
   <thead>
     <tr>
       <th>Airline</th>
       <th>Airport</th>
-      <th>Flight No.</th>
       <th>Departure</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -15,10 +13,9 @@
     <tr>
       <td><%= f.airline %></td>
       <td><%= f.airport %></td>
-      <td><%= f.flightNo %></td>
       <td><%= f.departs.toLocaleString() %></td>
+      <td><a href="/flights/<%= f._id %>">DETAILS</a></td>
     </tr>
-    <!-- Close the forEach using EJS here -->
     <% }); %>
   </tbody>
 </table>
