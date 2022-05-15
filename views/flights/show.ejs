@@ -8,12 +8,11 @@
   <div>Flight No: </div>
   <div><%= flight.flightNo %></div>
   <div>Departure: </div>
-  <div><%= flight.departs %></div>
+  <div><%= flight.departs.toLocaleString() %></div>
 </section>
 
 <br><br>
 <h2>Destinations</h2>
-
 <% if (flight.destinations.length) { %>
 <table>
   <thead>
@@ -35,7 +34,7 @@
 <h5>Non-stop flight</h5>
 <% } %>
 
-<form id="add-flight-form" method="POST" action="/flights/<%= flight._id %>/destinations">
+<form id="add-dest-form" method="POST" action="/flights/<%= flight._id %>/destinations">
   <label>Airport:</label>
   <select name="airport">
     <option value="DFW">DFW</option>
@@ -52,8 +51,33 @@
   <label>Arrival:</label>
   <input type="datetime-local" name="arrival" value="<%= arrTime %>">
 
-  <input type="submit" value="Add Flight">
+  <input type="submit" value="Add Stop">
 </form>
 
+<br><br>
+<h2>Tickets</h2>
+<% if (tickets.length) { %>
+<table>
+  <thead>
+    <tr>
+      <th>Seat</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% tickets.forEach(function(t) { %>
+    <tr>
+      <td><%= t.seat %></td>
+      <td>$<%= t.price %></td>
+    </tr>
+    <% }); %>
+  </tbody>
+</table>
+<% } else { %>
+<h5> No tickets available</h5>
+<% } %>
 
+
+<a href="/flights/<%= flight._id %>/tickets/new"><button id="new-ticket-btn">Create
+    Ticket</button></a>
 <%- include('../partials/footer') %>

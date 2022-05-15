@@ -1,4 +1,5 @@
 const Flight = require('../models/flight');
+const Ticket = require('../models/ticket');
 
 module.exports = {
   new: newFlight,
@@ -14,7 +15,7 @@ function newFlight(req, res) {
   // Format the date for the value attribute of the input
   let departsDate = `${dt.getFullYear()}-${(dt.getMonth() + 1).toString().padStart(2, '0')}`;
   departsDate += `-${dt.getDate().toString().padStart(2, '0')}T${dt.toTimeString().slice(0, 5)}`;
-  res.render('flights/new', { title: 'Add Flight', departsDate });
+  res.render('flights/new', {title: 'Add Flight', departsDate});
 }
 
 function create(req, res) {
@@ -34,7 +35,7 @@ function index(req, res) {
   Flight.find({}, function(err, flights) {
     if (err) return res.redirect('/');
     flights = flights.sort((a, b) => a.departs - b.departs);
-    res.render('flights/index', { title: 'All Flights', flights });
+    res.render('flights/index', {title: 'All Flights', flights});
   });
 }
 
@@ -44,8 +45,10 @@ function show(req, res) {
     const at = newFlight.departs;
     let arrTime = `${at.getFullYear()}-${(at.getMonth() + 1).toString().padStart(2, '0')}`;
     arrTime += `-${at.getDate().toString().padStart(2, '0')}T${at.toTimeString().slice(0, 5)}`;
-
     flight.destinations = flight.destinations.sort((a, b) => a.arrival - b.arrival);
-    res.render('flights/show', { title: 'Flight Details', flight, arrTime });
+
+    Ticket.find({flight: flight._id}, function(err, tickets) {
+      res.render('flights/show', {title: 'Flight Details', flight, arrTime, tickets});
+    });
   });
 }
